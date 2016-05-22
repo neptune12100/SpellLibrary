@@ -1,37 +1,16 @@
-﻿//
-//  Spell.cs
-//
-//  Author:
-//       Levi Arnold <arnojla@gmail.com>
-//
-//  Copyright (c) 2016 Levi Arnold
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-using System;
-using System.Text.RegularExpressions;
+﻿using System;
 using System.IO;
-using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace SpellLibrary
 {
-	/*
+    /*
 	 * Encapsulates an exported spell and provides functions to load spells in bulk.
 	 */
-	public class Spell
+    public class Spell
 	{
-		public string Source;
+        private const string Extension = ".txt";
+        public string Source;
 		public String Title;
 		private static Regex ntfsIllegalChars = new Regex (@"[\\/:*?""<>|]");
 
@@ -55,7 +34,7 @@ namespace SpellLibrary
 
 		public static object[] LoadFromDir (string path)
 		{
-			String[] files = Directory.GetFiles (path, "*.json");
+			String[] files = Directory.GetFiles (path, "*" + Extension);
 			Spell[] spells = new Spell[files.Length];
 			for (int i = 0; i < files.Length; i++) {
 				spells [i] = LoadFile (files [i]);
@@ -70,7 +49,7 @@ namespace SpellLibrary
 
 		public string FileName {
 			get {
-				return ntfsIllegalChars.Replace (Title, "_") + ".json"; //TODO: there's probably something in the .NET stdlib that does this. find it.
+				return ntfsIllegalChars.Replace (Title, "_") + Extension; //TODO: there's probably something in the .NET stdlib that does this. find it.
 			}
 		}
 

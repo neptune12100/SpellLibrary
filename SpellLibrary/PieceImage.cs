@@ -1,37 +1,12 @@
-﻿//
-//  PieceImage.cs
-//
-//  Author:
-//       Levi Arnold <arnojla@gmail.com>
-//
-//  Copyright (c) 2016 Levi Arnold
-//
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-using System.Resources;
-using System.Reflection;
-using System.Globalization;
+﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Compression;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
 
 namespace SpellLibrary
 {
-	public abstract class PieceImage
+    public abstract class PieceImage
 	{
 		public enum Direction
 		{
@@ -42,15 +17,30 @@ namespace SpellLibrary
 			Right
 		}
 
+        public static string FindPsiJar()
+        {
+            string[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*Psi*.jar");
+            if (files.Length == 0)
+            {
+                return null;
+            }
+            return files[0];
+        }
+
 		private static ZipArchive zf;
 		public static readonly string basePath = "assets/psi/textures/spell/";
 
 		public static Image[] ParameterImages, ConnectorImages;
 		public static Dictionary<string, Image> Images = new Dictionary<string, Image> ();
-
-		public static void Init ()
+        
+        public static bool Init ()
 		{
-			zf = ZipFile.Open ("psi.jar", ZipArchiveMode.Read);
+            string jarPath = FindPsiJar();
+            if (jarPath == null)
+            {
+                return false;
+            }
+			zf = ZipFile.Open (jarPath, ZipArchiveMode.Read);
 			Bitmap programmer = (Bitmap)Bitmap.FromStream (zf.GetEntry ("assets/psi/textures/gui/programmer.png").Open ());
 			ParameterImages = new Image[5]; //NONE UP DOWN LEFT RIGHT
 			ParameterImages [0] = null;
@@ -66,7 +56,7 @@ namespace SpellLibrary
 			ConnectorImages [1] = connectors.Clone (new Rectangle (0, 16, 16, 16), PixelFormat.DontCare);
 			ConnectorImages [4] = connectors.Clone (new Rectangle (0, 0, 16, 16), PixelFormat.DontCare);
 			ConnectorImages [3] = connectors.Clone (new Rectangle (16, 0, 16, 16), PixelFormat.DontCare);
-
+            return true;
 		}
 
 		public static Image Get (string name)

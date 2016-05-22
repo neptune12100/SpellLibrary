@@ -9,7 +9,7 @@ namespace TextNbt
 		private int Position = -1;
 		private string Source;
 
-		public TextNbtParser (string src)
+		private TextNbtParser (string src)
 		{
 			Source = src.Trim ();
 		}
@@ -23,12 +23,7 @@ namespace TextNbt
 			}
 			return Source [Position];
 		}
-
-		public NbtList TestParseArray ()
-		{
-			return ParseList ();
-		}
-
+        
 		/**
 		 * Called AFTER reading the opening "
 		 */
