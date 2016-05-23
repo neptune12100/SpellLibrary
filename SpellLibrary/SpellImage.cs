@@ -40,11 +40,22 @@ namespace SpellLibrary
                 return _blankImage;
             }
         }
-        
+
 
         public static Image RenderSpell(Spell spell)
         {
-            NbtCompound spellNbt = (NbtCompound)TextNbtParser.Parse(spell.Source);
+            NbtCompound spellNbt = null;
+            try
+            {
+                spellNbt = (NbtCompound)TextNbtParser.Parse(spell.Source);
+            }
+            catch (Exception e)
+            {
+                //Console.WriteLine(e);
+            }
+            if (spellNbt == null)
+                return BlankImage;
+
             NbtList piecesNbt = (NbtList)spellNbt["spellList"];
             Piece[] pieces = new Piece[piecesNbt.Count];
             int index = 0;
@@ -65,7 +76,7 @@ namespace SpellLibrary
                 string key = piece.Key;
                 x *= (TileWidth + Spacing);
                 y *= (TileHeight + Spacing);
-                
+
                 g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
                 g.DrawImage(PieceImage.Get(key), x, y, TileWidth, TileHeight);
 
@@ -89,14 +100,14 @@ namespace SpellLibrary
                 int pixy = y * (TileHeight + Spacing);
                 if (key == "connector")
                 {
-                    g.DrawImage(PieceImage.ConnectorImages[(int) piece.Parameters[0]], pixx, pixy, TileWidth, TileHeight);
+                    g.DrawImage(PieceImage.ConnectorImages[(int)piece.Parameters[0]], pixx, pixy, TileWidth, TileHeight);
 
-                    foreach(Piece.Side i in Enum.GetValues(typeof(Piece.Side)))
+                    foreach (Piece.Side i in Enum.GetValues(typeof(Piece.Side)))
                     {
                         bool con = piece.HasConnection(pieces, i);
                         if (con)
                         {
-                            g.DrawImage(PieceImage.ConnectorImages[(int) i], pixx, pixy, TileWidth, TileHeight);
+                            g.DrawImage(PieceImage.ConnectorImages[(int)i], pixx, pixy, TileWidth, TileHeight);
                         }
 
                     }

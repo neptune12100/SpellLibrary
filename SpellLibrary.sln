@@ -11,6 +11,8 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		Release Packages|Any CPU = Release Packages|Any CPU
+		Release Packages|x86 = Release Packages|x86
 		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
@@ -18,11 +20,17 @@ Global
 		{D0689B8B-FE94-4BDC-94CC-277C62008324}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{D0689B8B-FE94-4BDC-94CC-277C62008324}.Debug|x86.ActiveCfg = Debug|x86
 		{D0689B8B-FE94-4BDC-94CC-277C62008324}.Debug|x86.Build.0 = Debug|x86
+		{D0689B8B-FE94-4BDC-94CC-277C62008324}.Release Packages|Any CPU.ActiveCfg = Release Packages|x86
+		{D0689B8B-FE94-4BDC-94CC-277C62008324}.Release Packages|x86.ActiveCfg = Release Packages|x86
+		{D0689B8B-FE94-4BDC-94CC-277C62008324}.Release Packages|x86.Build.0 = Release Packages|x86
+		{D0689B8B-FE94-4BDC-94CC-277C62008324}.Release Packages|x86.Deploy.0 = Release Packages|x86
 		{D0689B8B-FE94-4BDC-94CC-277C62008324}.Release|Any CPU.ActiveCfg = Release|x86
 		{D0689B8B-FE94-4BDC-94CC-277C62008324}.Release|x86.ActiveCfg = Release|x86
 		{D0689B8B-FE94-4BDC-94CC-277C62008324}.Release|x86.Build.0 = Release|x86
 		{916771AF-6BD7-46F8-A12C-4B45B3D56935}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{916771AF-6BD7-46F8-A12C-4B45B3D56935}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{916771AF-6BD7-46F8-A12C-4B45B3D56935}.Release Packages|Any CPU.ActiveCfg = Release|Any CPU
+		{916771AF-6BD7-46F8-A12C-4B45B3D56935}.Release Packages|x86.ActiveCfg = Release|Any CPU
 		{916771AF-6BD7-46F8-A12C-4B45B3D56935}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{916771AF-6BD7-46F8-A12C-4B45B3D56935}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection

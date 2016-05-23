@@ -31,6 +31,15 @@
     <ConsolePause>false</ConsolePause>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release Packages|x86'">
+    <OutputPath>bin\x86\Release Packages\</OutputPath>
+    <Optimize>true</Optimize>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Reference Include="System" />
@@ -53,7 +62,6 @@
     <Compile Include="PieceImage.cs" />
     <Compile Include="SpellImage.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>

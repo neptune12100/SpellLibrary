@@ -18,7 +18,7 @@ namespace SpellLibrary
 
         private static Side Reverse(Side side)
         {
-            return Backwards[(int) side];
+            return Backwards[(int)side];
         }
 
 
@@ -33,7 +33,7 @@ namespace SpellLibrary
         public Piece(String key, int x, int y, Side[] parameters)
         {
             Key = key;
-            Parameters = (Side[]) parameters.Clone();
+            Parameters = (Side[])parameters.Clone();
             X = x;
             Y = y;
         }
@@ -68,15 +68,15 @@ namespace SpellLibrary
                 int i = 0;
                 foreach (NbtInt p in paramsTag)
                 {
-                    Parameters[i++] = (Side) p.IntValue;
+                    Parameters[i++] = (Side)p.IntValue;
                 }
             }
         }
 
         public Piece GetPieceAtSide(Piece[] pieces, Side side)
         {
-            int targetX = X + XOffsets[(int) side];
-            int targetY = Y + YOffsets[(int) side];
+            int targetX = X + XOffsets[(int)side];
+            int targetY = Y + YOffsets[(int)side];
             Piece result = null;
             if (targetX >= 0 && targetX < 9 && targetY >= 0 && targetY < 9)
             {

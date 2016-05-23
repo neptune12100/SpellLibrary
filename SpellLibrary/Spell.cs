@@ -24,7 +24,7 @@ namespace SpellLibrary
 				Title = "";
 			}
 			if (Title == "")
-				Title = "INVALID SPELL " + json.GetHashCode ();
+				Title = "INVALID SPELL " + json.GetHashCode ().ToString("x");
 		}
 
 		public static Spell LoadFile (string path)
