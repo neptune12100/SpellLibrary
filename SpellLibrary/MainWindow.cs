@@ -154,14 +154,14 @@ namespace SpellLibrary
             DeleteSpell((Spell)list.SelectedItem);
             preview.Image = SpellImage.BlankImage;
         }
-
+        
         [STAThread]
         public static int Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.Run(new MainWindow());
             return 0;
-        }
+        } 
     }
 }
 

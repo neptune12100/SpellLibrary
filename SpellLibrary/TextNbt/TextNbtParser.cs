@@ -4,6 +4,9 @@ using fNbt;
 
 namespace TextNbt
 {
+    /// <summary>
+    /// Provides a static method to parse the pseudo-JSON Minecraft outputs
+    /// </summary>
     public class TextNbtParser
     {
         private int Position = -1;
@@ -266,7 +269,7 @@ namespace TextNbt
             }
             catch (Exception)
             {
-                throw new Exception(@"Unexpected EOF, expected prety much anything but that.");
+                throw new Exception(@"Unexpected EOF, expected pretty much anything but that.");
             }
             NbtTag ret = null;
             switch (next)
@@ -291,6 +294,11 @@ namespace TextNbt
             return ret;
         }
 
+        /// <summary>
+        /// Parses an arbitrary serialized NbtTag
+        /// </summary>
+        /// <param name="src">The serialized tag</param>
+        /// <returns>The parsed NbtTag</returns>
         public static NbtTag Parse(string src)
         {
             TextNbtParser p = new TextNbtParser(src);

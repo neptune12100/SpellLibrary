@@ -4,17 +4,29 @@ using System.Text.RegularExpressions;
 
 namespace SpellLibrary
 {
-    /*
-	 * Encapsulates an exported spell and provides functions to load spells in bulk.
-	 */
+
+    /// <summary>
+    /// Encapsulates an exported spell and provides functions to load spells in bulk.
+    /// </summary>
     public class Spell
 	{
         private const string Extension = ".txt";
+        /// <summary>
+        /// The exported spell
+        /// </summary>
         public string Source;
-		public String Title;
+		/// <summary>
+        /// The Spell's name
+        /// </summary>
+        public String Title;
+
 		private static Regex ntfsIllegalChars = new Regex (@"[\\/:*?""<>|]");
 
-		public Spell (string json)
+		/// <summary>
+        /// Construct a Spell form the exported source
+        /// </summary>
+        /// <param name="json">Source, exported from Psi</param>
+        public Spell (string json)
 		{
 			Source = json;
 
@@ -27,12 +39,22 @@ namespace SpellLibrary
 				Title = "INVALID SPELL " + json.GetHashCode ().ToString("x");
 		}
 
-		public static Spell LoadFile (string path)
+		/// <summary>
+        /// Load a spell from a file
+        /// </summary>
+        /// <param name="path">The file</param>
+        /// <returns>The loaded spell</returns>
+        public static Spell LoadFile (string path)
 		{
 			return new Spell (File.ReadAllText (path));
 		}
 
-		public static object[] LoadFromDir (string path)
+		/// <summary>
+        /// Load all spells from a folder
+        /// </summary>
+        /// <param name="path">Where to load from</param>
+        /// <returns>The spells</returns>
+        public static object[] LoadFromDir (string path)
 		{
 			String[] files = Directory.GetFiles (path, "*" + Extension);
 			Spell[] spells = new Spell[files.Length];
@@ -47,13 +69,20 @@ namespace SpellLibrary
 			return Title;
 		}
 
-		public string FileName {
+		/// <summary>
+        /// The filename the spell should be saved as
+        /// </summary>
+        public string FileName {
 			get {
 				return ntfsIllegalChars.Replace (Title, "_") + Extension; //TODO: there's probably something in the .NET stdlib that does this. find it.
 			}
 		}
 
-		public void SaveIn (string dir)
+		/// <summary>
+        /// Save the spell in the specified directory
+        /// </summary>
+        /// <param name="dir">Where to save it</param>
+        public void SaveIn (string dir)
 		{
 			File.WriteAllText (Path.Combine (dir, FileName), Source);
 		}

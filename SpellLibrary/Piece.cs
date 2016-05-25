@@ -3,8 +3,14 @@ using System;
 
 namespace SpellLibrary
 {
+    /// <summary>
+    /// Encapsulates a spell piece to abstract from any changes to vazkii's spell NBT format
+    /// </summary>
     public class Piece
     {
+        /// <summary>
+        /// Sides for parameters
+        /// </summary>
         public enum Side
         {
             NONE = 0,
@@ -30,6 +36,13 @@ namespace SpellLibrary
         public int X, Y;
         public string ConstantValue = "";
 
+        /// <summary>
+        /// Construct a Piece with arbitrary properties
+        /// </summary>
+        /// <param name="key">The piece's key, e.g. operatorSum</param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="parameters">The piece's parameters</param>
         public Piece(String key, int x, int y, Side[] parameters)
         {
             Key = key;
@@ -38,6 +51,10 @@ namespace SpellLibrary
             Y = y;
         }
 
+        /// <summary>
+        /// Construct a piece from an NbtCompound containing the piece's data
+        /// </summary>
+        /// <param name="nbt">The NbtCompound conatining the piece's data</param>
         public Piece(NbtCompound nbt)
         {
             NbtCompound data;
@@ -73,6 +90,12 @@ namespace SpellLibrary
             }
         }
 
+        /// <summary>
+        /// Given a list of other pieces in a spell, find the piece at the given side of this one
+        /// </summary>
+        /// <param name="pieces">Array of other pieces in the spell</param>
+        /// <param name="side">The side to search at</param>
+        /// <returns>The found Piece, or null if there is none</returns>
         public Piece GetPieceAtSide(Piece[] pieces, Side side)
         {
             int targetX = X + XOffsets[(int)side];
@@ -92,6 +115,12 @@ namespace SpellLibrary
             return result;
         }
 
+        /// <summary>
+        /// For connectors, finds if the Piece at the given side uses this one as an input
+        /// </summary>
+        /// <param name="pieces">Array of other pieces in the spell</param>
+        /// <param name="side">The side to search at</param>
+        /// <returns>True if this piece should connect to this side, false otherwise</returns>
         public bool HasConnection(Piece[] pieces, Side side)
         {
             Piece other = GetPieceAtSide(pieces, side);
@@ -115,7 +144,7 @@ namespace SpellLibrary
 
         public override string ToString()
         {
-            return string.Format("{0} at ({1},{2}), parameters {3}", Key, X, Y, Parameters);
+            return string.Format("{0} at ({1},{2})", Key, X, Y);
         }
     }
 }

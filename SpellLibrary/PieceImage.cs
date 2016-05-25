@@ -6,17 +6,15 @@ using System.IO.Compression;
 
 namespace SpellLibrary
 {
+    /// <summary>
+    /// Provides static methods to load images from the Psi jar file
+    /// </summary>
     public abstract class PieceImage
     {
-        public enum Direction
-        {
-            None,
-            Up,
-            Down,
-            Left,
-            Right
-        }
-
+        /// <summary>
+        /// Finds the Psi jar
+        /// </summary>
+        /// <returns>the name of the jar file</returns>
         public static string FindPsiJar()
         {
             string[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*Psi*.jar");
@@ -30,9 +28,21 @@ namespace SpellLibrary
         private static ZipArchive zf;
         public static readonly string basePath = "assets/psi/textures/spell/";
 
-        public static Image[] ParameterImages, ConnectorImages;
-        public static Dictionary<string, Image> Images = new Dictionary<string, Image>();
+        /// <summary>
+        /// Images for the parameter arrows
+        /// </summary>
+        public static Image[] ParameterImages;
+        /// <summary>
+        /// Images for connector lines
+        /// </summary>
+        public static Image[] ConnectorImages;
 
+        private static Dictionary<string, Image> Images = new Dictionary<string, Image>();
+
+        /// <summary>
+        /// finds the Psi jar, loads a few images. Must be called befoore using the class.
+        /// </summary>
+        /// <returns>true if Psi jar was found, false otherwise</returns>
         public static bool Init()
         {
             string jarPath = FindPsiJar();
@@ -59,16 +69,21 @@ namespace SpellLibrary
             return true;
         }
 
-        public static Image Get(string name)
+        /// <summary>
+        /// Gets the image for a spell piece
+        /// </summary>
+        /// <param name="key">Which piece</param>
+        /// <returns>the image</returns>
+        public static Image Get(string key)
         {
-            if (Images.ContainsKey(name))
+            if (Images.ContainsKey(key))
             {
                 //Console.WriteLine ("Had " + name + " already loaded.");
-                return Images[name];
+                return Images[key];
             }
             else {
-                Image i = Bitmap.FromStream(zf.GetEntry(basePath + name + ".png").Open());
-                Images[name] = i;
+                Image i = Bitmap.FromStream(zf.GetEntry(basePath + key + ".png").Open());
+                Images[key] = i;
                 //Console.WriteLine ("Loaded " + name + ".");
                 return i;
             }

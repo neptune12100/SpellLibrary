@@ -5,6 +5,9 @@ using TextNbt;
 
 namespace SpellLibrary
 {
+    /// <summary>
+    /// Renders previews of Spells
+    /// </summary>
     public abstract class SpellImage
     {
         public static readonly int Width = 9, Height = 9;
@@ -28,6 +31,9 @@ namespace SpellLibrary
 
         private static Image _blankImage;
 
+        /// <summary>
+        /// A blank, spell-sized image
+        /// </summary>
         public static Image BlankImage
         {
             get
@@ -42,6 +48,11 @@ namespace SpellLibrary
         }
 
 
+        /// <summary>
+        /// Render a spell preview
+        /// </summary>
+        /// <param name="spell">The spell to render</param>
+        /// <returns>An Image of the spell's grid</returns>
         public static Image RenderSpell(Spell spell)
         {
             NbtCompound spellNbt = null;
