@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using ICSharpCode.SharpZipLib.Zip;
 using System.IO;
-using System.IO.Compression;
 
 namespace SpellLibrary
 {
@@ -25,7 +25,7 @@ namespace SpellLibrary
             return files[0];
         }
 
-        private static ZipArchive zf;
+        private static ZipFile zf;
         public static readonly string basePath = "assets/psi/textures/spell/";
 
         /// <summary>
@@ -50,8 +50,8 @@ namespace SpellLibrary
             {
                 return false;
             }
-            zf = ZipFile.Open(jarPath, ZipArchiveMode.Read);
-            Bitmap programmer = (Bitmap)Bitmap.FromStream(zf.GetEntry("assets/psi/textures/gui/programmer.png").Open());
+			zf = new ZipFile (jarPath);
+            Bitmap programmer = (Bitmap)Bitmap.FromStream(GetStream("assets/psi/textures/gui/programmer.png"));
             ParameterImages = new Image[5]; //NONE UP DOWN LEFT RIGHT
             ParameterImages[0] = null;
             ParameterImages[2] = programmer.Clone(new Rectangle(230, 8, 8, 8), PixelFormat.DontCare); //for some reason "PixelFormat.DontCare" cracks me up
@@ -59,7 +59,7 @@ namespace SpellLibrary
             ParameterImages[4] = programmer.Clone(new Rectangle(222, 0, 8, 8), PixelFormat.DontCare);
             ParameterImages[3] = programmer.Clone(new Rectangle(230, 0, 8, 8), PixelFormat.DontCare);
 
-            Bitmap connectors = (Bitmap)Bitmap.FromStream(zf.GetEntry("assets/psi/textures/spell/connectorLines.png").Open());
+            Bitmap connectors = (Bitmap)Bitmap.FromStream(GetStream("assets/psi/textures/spell/connectorLines.png"));
             ConnectorImages = new Image[5];
             ConnectorImages[0] = null;
             ConnectorImages[2] = connectors.Clone(new Rectangle(16, 16, 16, 16), PixelFormat.DontCare);
@@ -82,12 +82,17 @@ namespace SpellLibrary
                 return Images[key];
             }
             else {
-                Image i = Bitmap.FromStream(zf.GetEntry(basePath + key + ".png").Open());
+                Image i = Bitmap.FromStream(GetStream(basePath + key + ".png"));
                 Images[key] = i;
                 //Console.WriteLine ("Loaded " + name + ".");
                 return i;
             }
         }
+
+		private static Stream GetStream(string path) {
+			ZipEntry e = zf.GetEntry (path);
+			return zf.GetInputStream (e);
+		}
     }
 }
 

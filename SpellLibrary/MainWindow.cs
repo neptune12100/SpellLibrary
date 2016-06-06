@@ -10,7 +10,7 @@ namespace SpellLibrary
         private ListBox list;
         private TableLayoutPanel panel;
         private Label preview;
-
+		private bool HasJar = false;
         public static readonly int PreviewScale = 4;
         public static readonly string libraryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Psi Spell Library");
 
@@ -44,12 +44,17 @@ namespace SpellLibrary
 
             preview = new Label();
             //Loading images
-            if (PieceImage.Init())
-            {
+			HasJar = PieceImage.Init ();
+            if (HasJar)
+			{
                 preview.Image = SpellImage.BlankImage;
                 preview.MinimumSize = new Size(SpellImage.ImageWidth, SpellImage.ImageHeight);
-                panel.Controls.Add(preview, 3, 0);
-                panel.SetRowSpan(preview, 2);
+				preview.BackColor = Color.Black;
+				preview.Location = new Point (278, 0);
+				preview.AutoSize = true;
+				Controls.Add (preview);
+                //panel.Controls.Add(preview, 3, 0);
+                //panel.SetRowSpan(preview, 2);
             }
             else
             {
@@ -61,7 +66,8 @@ namespace SpellLibrary
 
             Controls.Add(panel);
             panel.AutoSize = true;
-            AutoSize = true;
+			AutoSize = true;
+			MinimumSize = new Size (278 + (HasJar ? 612 : 0), 612);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Text = "Psi Spell Library";
 
