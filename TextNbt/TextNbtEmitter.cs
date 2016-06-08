@@ -1,17 +1,13 @@
 ﻿using fNbt;
-using SpellLibrary;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace TextNbt
 {
     /// <summary>
     /// Provides a static method to serialize an NbtTag to a text format Minecraft can use
     /// </summary>
-    class TextNbtEmitter
+    public class TextNbtEmitter
     {
         /// <summary>
         /// Serialize an fNbt.NbtTag to a JSON-ish representation Minecraft likes
@@ -23,27 +19,43 @@ namespace TextNbt
             StringBuilder sb = new StringBuilder();
             switch (tag.TagType) {
                 case NbtTagType.List:
-                    sb.Append("[");
-                    foreach (NbtTag subTag in (NbtList)tag)
+                    if (((NbtList)tag).Count == 0)
                     {
-                        sb.Append(Serialize(subTag));
-                        sb.Append(",");
+                        sb.Append("[]");
                     }
-                    sb.Remove(sb.Length - 1, 1);
-                    sb.Append("]");
+                    else {
+                        sb.Append("[");
+                        NbtList list = (NbtList)tag;
+                        for (int i = 0; i < list.Count; i++)
+                        {
+                            NbtTag subTag = list[i];
+                            sb.Append(i);
+                            sb.Append(":");
+                            sb.Append(Serialize(subTag));
+                            sb.Append(",");
+                        }
+                        sb.Remove(sb.Length - 1, 1);
+                        sb.Append("]");
+                    }
                     break;
                 case NbtTagType.Compound:
-                    sb.Append("{");
-                    foreach (NbtTag subTag in (NbtCompound)tag)
+                    if (((NbtCompound)tag).Count == 0)
                     {
-                        sb.Append(subTag.Name); //fine mojang. you win. dont quote your suckin names.
-                                                //btw did vs seriously just autocorrect that to suckin or am i high?
-                        sb.Append(":");
-                        sb.Append(Serialize(subTag));
-                        sb.Append(",");
+                        sb.Append("{}");
                     }
-                    sb.Remove(sb.Length - 1, 1);
-                    sb.Append("}");
+                    else {
+                        sb.Append("{");
+                        foreach (NbtTag subTag in (NbtCompound)tag)
+                        {
+                            sb.Append(subTag.Name); //fine mojang. you win. dont quote your suckin names.
+                                                    //btw did vs seriously just autocorrect that to suckin or am i high?
+                            sb.Append(":");
+                            sb.Append(Serialize(subTag));
+                            sb.Append(",");
+                        }
+                        sb.Remove(sb.Length - 1, 1);
+                        sb.Append("}");
+                    }
                     break;
                 case NbtTagType.String:
                     sb.Append('"');

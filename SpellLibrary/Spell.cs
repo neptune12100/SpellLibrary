@@ -1,10 +1,11 @@
-﻿using System;
+﻿using fNbt;
+using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using TextNbt;
 
 namespace SpellLibrary
 {
-
     /// <summary>
     /// Encapsulates an exported spell and provides functions to load spells in bulk.
     /// </summary>
@@ -38,6 +39,11 @@ namespace SpellLibrary
 			if (Title == "")
 				Title = "INVALID SPELL " + json.GetHashCode ().ToString("x");
 		}
+        /// <summary>
+        /// Construct a spell from raw NBT
+        /// </summary>
+        /// <param name="nbt"></param>
+        public Spell(NbtTag nbt) : this(TextNbtEmitter.Serialize(nbt)) { }
 
 		/// <summary>
         /// Load a spell from a file
@@ -54,7 +60,7 @@ namespace SpellLibrary
         /// </summary>
         /// <param name="path">Where to load from</param>
         /// <returns>The spells</returns>
-        public static object[] LoadFromDir (string path)
+        public static Spell[] LoadFromDir (string path)
 		{
 			String[] files = Directory.GetFiles (path, "*" + Extension);
 			Spell[] spells = new Spell[files.Length];
@@ -74,7 +80,7 @@ namespace SpellLibrary
         /// </summary>
         public string FileName {
 			get {
-				return ntfsIllegalChars.Replace (Title, "_") + Extension; //TODO: there's probably something in the .NET stdlib that does this. find it.
+				return ntfsIllegalChars.Replace (Title, "_") + " " + Source.GetHashCode().ToString("x") + Extension; //TODO: there's probably something in the .NET stdlib that does this. find it.
 			}
 		}
 

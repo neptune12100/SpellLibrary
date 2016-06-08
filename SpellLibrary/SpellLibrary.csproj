@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -7,9 +7,10 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>SpellLibrary</RootNamespace>
     <AssemblyName>SpellLibrary</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <StartupObject>SpellLibrary.MainWindow</StartupObject>
     <ApplicationIcon>icon.ico</ApplicationIcon>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,23 +48,47 @@
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Drawing" />
-    <Reference Include="fNbt">
-      <HintPath>..\fNbt.dll</HintPath>
-    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnvilFile.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Spell.cs" />
     <Compile Include="Piece.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TextNbt\TextNbtEmitter.cs" />
-    <Compile Include="TextNbt\TextNbtParser.cs" />
     <Compile Include="PieceImage.cs" />
     <Compile Include="SpellImage.cs" />
+    <Compile Include="WorldScanner.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\fNbt\fNbt.csproj">
+      <Project>{4488498d-976d-4da3-bf72-109531af0488}</Project>
+      <Name>fNbt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TextNbt\TextNbt.csproj">
+      <Project>{ede36b7b-b6d8-4983-905d-39a42ee4819f}</Project>
+      <Name>TextNbt</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

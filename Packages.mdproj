@@ -6,7 +6,7 @@
     <Packages>
       <Packages>
         <Package name="Microsoft Windows Binaries">
-          <Builder targetFile="..\..\SpellLibrary.zip" platform="Windows" configuration="Release|x86" ctype="BinariesZipPackageBuilder">
+          <Builder targetFile="..\..\SpellLibrary-v0.2-alpha-win.zip" platform="Windows" configuration="Release|x86" ctype="BinariesZipPackageBuilder">
             <RootEntry path="SpellLibrary\SpellLibrary.csproj" />
           </Builder>
         </Package>

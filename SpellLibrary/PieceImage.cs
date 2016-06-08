@@ -18,11 +18,17 @@ namespace SpellLibrary
         public static string FindPsiJar()
         {
             string[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*Psi*.jar");
+            //if (files.Length == 0)
+            //{
+            //    files = Directory.GetFiles(MainWindow.MinecraftFolder, "*Psi*.jar"); //Leave this off for now
+            //}
             if (files.Length == 0)
             {
                 return null;
             }
-            return files[0];
+            List<string> l = new List<string>(files);
+            l.Sort();
+            return l[l.Count - 1]; //Highest version available.
         }
 
         private static ZipFile zf;
