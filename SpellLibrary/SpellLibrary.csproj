@@ -8,7 +8,7 @@
     <RootNamespace>SpellLibrary</RootNamespace>
     <AssemblyName>SpellLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <StartupObject>SpellLibrary.MainWindow</StartupObject>
+    <StartupObject>SpellLibrary.Program</StartupObject>
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -86,12 +86,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnvilFile.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="PsiJarHelper.cs" />
     <Compile Include="Spell.cs" />
     <Compile Include="Piece.cs" />
     <Compile Include="MainWindow.cs">

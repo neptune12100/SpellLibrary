@@ -284,7 +284,7 @@ namespace TextNbt
                     break;
                 default:
                     if (next >= '0' && next <= '9' || next == '-')
-                    { //Fuckin seriously, I cant just put a case '0':'9' or something?
+                    { //seriously, I cant just put a case '0':'9' or something?
                         Position--; //blundered into a number.
                         ret = ParseNumber();
                     }

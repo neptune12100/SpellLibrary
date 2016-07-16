@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace SpellLibrary
@@ -31,6 +30,7 @@ namespace SpellLibrary
                 PreviewLabel.Text = "";
                 PreviewLabel.Image = SpellImage.BlankImage;
             }
+            //buttonDownloadPsi.Text = "Download psi-" + PsiJarHelper.GetLatestPsiVersion("1.9") + ".jar";
             LoadAllSpells();
         }
 
@@ -44,13 +44,10 @@ namespace SpellLibrary
                     case PlatformID.Win32Windows:
                     case PlatformID.Win32NT:
                         return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".minecraft");
-                        break;
                     case PlatformID.MacOSX:
-                        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Application Support", "minecraft");
-                        break;
+                        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Application Support", "minecraft"); //Don't have a mac, don't know if this is right
                     default: // ~/.minecraft on Linux
                         return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".minecraft");
-                        break;
                 }
             }
         }
@@ -78,14 +75,9 @@ namespace SpellLibrary
             SpellList.Items.Remove(spell);
         }
         
-        [STAThread]
-        public static int Main(string[] args)
-        {
-            Application.EnableVisualStyles();
-            Application.Run(new MainWindow());
-            return 0;
-        }
+        
 
+        #region stuff that should be in a separate designer file but isn't so bite me
         private void InitializeComponent()
         {
             this.SpellList = new System.Windows.Forms.ListBox();
@@ -101,15 +93,17 @@ namespace SpellLibrary
             this.SpellList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.SpellList.ForeColor = System.Drawing.Color.White;
             this.SpellList.FormattingEnabled = true;
+            this.SpellList.ItemHeight = 20;
             this.SpellList.Location = new System.Drawing.Point(12, 12);
             this.SpellList.Name = "SpellList";
-            this.SpellList.Size = new System.Drawing.Size(170, 485);
+            this.SpellList.Size = new System.Drawing.Size(170, 484);
             this.SpellList.TabIndex = 0;
             this.SpellList.SelectedIndexChanged += new System.EventHandler(this.SpellList_SelectedIndexChanged);
             // 
             // PreviewLabel
             // 
             this.PreviewLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.PreviewLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PreviewLabel.ForeColor = System.Drawing.Color.Red;
             this.PreviewLabel.Location = new System.Drawing.Point(188, 12);
             this.PreviewLabel.Name = "PreviewLabel";
@@ -172,7 +166,7 @@ namespace SpellLibrary
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.ClientSize = new System.Drawing.Size(830, 648);
+            this.ClientSize = new System.Drawing.Size(799, 624);
             this.Controls.Add(this.ImportButton);
             this.Controls.Add(this.DeleteButton);
             this.Controls.Add(this.PasteButton);
@@ -184,6 +178,7 @@ namespace SpellLibrary
             this.ResumeLayout(false);
 
         }
+        #endregion
 
         private void CopyButton_Click(object sender, EventArgs e)
         {
@@ -248,14 +243,12 @@ namespace SpellLibrary
             OldText = ImportButton.Text;
             ImportButton.Text = "Importing...";
 
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.InitialDirectory = Path.Combine(MinecraftFolder, "saves");
-            dialog.Title = "Select the save's level.dat";
-            dialog.DefaultExt = ".dat";
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.SelectedPath = Path.Combine(MinecraftFolder, "saves");
             DialogResult result = dialog.ShowDialog(this);
             if (result == DialogResult.OK)
             {
-                string path = Path.GetDirectoryName(dialog.FileName);
+                string path = dialog.SelectedPath;
                 BackgroundWorker worker = new BackgroundWorker();
                 worker.WorkerReportsProgress = true;
                 worker.DoWork += Worker_ScanWorld;

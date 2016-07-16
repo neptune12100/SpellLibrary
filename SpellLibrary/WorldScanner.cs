@@ -15,8 +15,9 @@ namespace SpellLibrary
         {
             List<string> files = new List<string>();
 
-            files.AddRange(Directory.GetFiles(Path.Combine(saveBase, "playerdata"), "*.dat")); //Players' individual files
-            files.AddRange(Directory.GetFiles(saveBase, "*.mca", SearchOption.AllDirectories)); //World files in all dimensions. Woot!
+
+            files.AddRange(Directory.GetFiles(saveBase, "*.mca", SearchOption.AllDirectories)); //World files in all dimensions.
+            files.AddRange(Directory.GetFiles(saveBase, "*.dat", SearchOption.AllDirectories)); //Player inventories and things like EnderStorage ender(chest|bag)s
 
             return files.ToArray();
         }
@@ -39,15 +40,19 @@ namespace SpellLibrary
 
         public static NbtTag[] ScanFile(string path, string needleName)
         {
-            if (path.EndsWith(".mca"))
+            try
             {
-                return FindTagsNamedInAnvil(new AnvilFile(path), needleName);
+                if (path.EndsWith(".mca"))
+                {
+                    return FindTagsNamedInAnvil(new AnvilFile(path), needleName);
+                }
+                else if (path.EndsWith(".dat"))
+                {
+                    NbtTag t = new NbtFile(path).RootTag;
+                    return FindTagsNamed(t, needleName);
+                }
             }
-            else if (path.EndsWith(".dat"))
-            {
-                NbtTag t = new NbtFile(path).RootTag;
-                return FindTagsNamed(t, needleName);
-            }
+            catch (Exception) { };
             return new NbtTag[0];
         }
 
