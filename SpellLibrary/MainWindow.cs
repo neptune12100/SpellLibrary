@@ -93,10 +93,9 @@ namespace SpellLibrary
             this.SpellList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.SpellList.ForeColor = System.Drawing.Color.White;
             this.SpellList.FormattingEnabled = true;
-            this.SpellList.ItemHeight = 20;
             this.SpellList.Location = new System.Drawing.Point(12, 12);
             this.SpellList.Name = "SpellList";
-            this.SpellList.Size = new System.Drawing.Size(170, 484);
+            this.SpellList.Size = new System.Drawing.Size(170, 472);
             this.SpellList.TabIndex = 0;
             this.SpellList.SelectedIndexChanged += new System.EventHandler(this.SpellList_SelectedIndexChanged);
             // 
@@ -117,7 +116,7 @@ namespace SpellLibrary
             // 
             this.CopyButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.CopyButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.CopyButton.Location = new System.Drawing.Point(12, 503);
+            this.CopyButton.Location = new System.Drawing.Point(12, 490);
             this.CopyButton.Name = "CopyButton";
             this.CopyButton.Size = new System.Drawing.Size(170, 23);
             this.CopyButton.TabIndex = 2;
@@ -129,7 +128,7 @@ namespace SpellLibrary
             // 
             this.PasteButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.PasteButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.PasteButton.Location = new System.Drawing.Point(12, 532);
+            this.PasteButton.Location = new System.Drawing.Point(12, 519);
             this.PasteButton.Name = "PasteButton";
             this.PasteButton.Size = new System.Drawing.Size(170, 23);
             this.PasteButton.TabIndex = 2;
@@ -141,7 +140,7 @@ namespace SpellLibrary
             // 
             this.DeleteButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.DeleteButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.DeleteButton.Location = new System.Drawing.Point(12, 561);
+            this.DeleteButton.Location = new System.Drawing.Point(12, 548);
             this.DeleteButton.Name = "DeleteButton";
             this.DeleteButton.Size = new System.Drawing.Size(170, 23);
             this.DeleteButton.TabIndex = 2;
@@ -153,7 +152,7 @@ namespace SpellLibrary
             // 
             this.ImportButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ImportButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ImportButton.Location = new System.Drawing.Point(12, 590);
+            this.ImportButton.Location = new System.Drawing.Point(12, 577);
             this.ImportButton.Name = "ImportButton";
             this.ImportButton.Size = new System.Drawing.Size(170, 23);
             this.ImportButton.TabIndex = 2;
@@ -166,7 +165,7 @@ namespace SpellLibrary
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.ClientSize = new System.Drawing.Size(799, 624);
+            this.ClientSize = new System.Drawing.Size(834, 649);
             this.Controls.Add(this.ImportButton);
             this.Controls.Add(this.DeleteButton);
             this.Controls.Add(this.PasteButton);
@@ -316,6 +315,7 @@ namespace SpellLibrary
                 }
             }
         }
+
     }
 }
 

@@ -1,5 +1,7 @@
 #Psi Spell Library
 
+![a screenshot of the bloody thing](doc/screenshot-1.png)
+
 A rather basic program for managing [Psi](http://psi.vazkii.us) spells, written for [/r/psispellcompendium](https://reddit.com/r/psispellcompendium).
 
 Written in C#, using [fNbt](https://github.com/fragmer/fnbt) for internal stuff and [#ZipLib](https://github.com/icsharpcode/sharpziplib) to retrieve textures from the Psi jar.
