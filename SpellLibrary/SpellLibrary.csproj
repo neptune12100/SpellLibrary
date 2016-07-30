@@ -139,6 +139,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="SpellFormat.txt" />
+  </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
