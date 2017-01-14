@@ -1,5 +1,6 @@
 ﻿using fNbt;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using TextNbt;
@@ -12,10 +13,15 @@ namespace SpellLibrary
     public class Spell
 	{
         private const string Extension = ".txt";
+        private const string NoteExtension = ".note.txt";
         /// <summary>
         /// The exported spell
         /// </summary>
         public string Source;
+        /// <summary>
+        /// Any notes attached to the spell
+        /// </summary>
+        public string Note;
 		/// <summary>
         /// The Spell's name
         /// </summary>
@@ -39,6 +45,17 @@ namespace SpellLibrary
 			if (Title == "")
 				Title = "INVALID SPELL " + json.GetHashCode ().ToString("x");
 		}
+
+        /// <summary>
+        /// Construct a Spell with source code and a note
+        /// </summary>
+        /// <param name="json"></param>
+        /// <param name="notes"></param>
+        public Spell(string json, string note) : this(json)
+        {
+            Note = note;
+        }
+
         /// <summary>
         /// Construct a spell from raw NBT
         /// </summary>
@@ -52,7 +69,12 @@ namespace SpellLibrary
         /// <returns>The loaded spell</returns>
         public static Spell LoadFile (string path)
 		{
-			return new Spell (File.ReadAllText (path));
+			Spell spell = new Spell (File.ReadAllText (path));
+            if (File.Exists(path + ".note.txt"))
+            {
+                spell.Note = File.ReadAllText(path + ".note.txt");
+            }
+            return spell;
 		}
 
 		/// <summary>
@@ -63,11 +85,14 @@ namespace SpellLibrary
         public static Spell[] LoadFromDir (string path)
 		{
 			String[] files = Directory.GetFiles (path, "*" + Extension);
-			Spell[] spells = new Spell[files.Length];
-			for (int i = 0; i < files.Length; i++) {
-				spells [i] = LoadFile (files [i]);
+			List<Spell> spells = new List<Spell>();
+			foreach (String fn in files) {
+				if (!fn.EndsWith(NoteExtension))
+                {
+                    spells.Add(LoadFile(fn));
+                }
 			}
-			return spells;
+			return spells.ToArray();
 		}
 
 		public override string ToString ()
@@ -91,6 +116,13 @@ namespace SpellLibrary
         public void SaveIn (string dir)
 		{
 			File.WriteAllText (Path.Combine (dir, FileName), Source);
+            if (Note != "")
+            {
+                File.WriteAllText(Path.Combine(dir, FileName + NoteExtension), Note);
+            } else
+            {
+                File.Delete(Path.Combine(dir, FileName + NoteExtension));
+            }
 		}
 
 	}

@@ -19,7 +19,10 @@ namespace SpellLibrary
         private Button DeleteButton;
         private Button ImportButton;
         public static readonly string libraryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Psi Spell Library");
+        private TextBox NoteTextBox;
+        private Button EditNoteButton;
         private string OldText;
+        private bool Editing;
 
         public MainWindow()
         {
@@ -86,6 +89,8 @@ namespace SpellLibrary
             this.PasteButton = new System.Windows.Forms.Button();
             this.DeleteButton = new System.Windows.Forms.Button();
             this.ImportButton = new System.Windows.Forms.Button();
+            this.NoteTextBox = new System.Windows.Forms.TextBox();
+            this.EditNoteButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // SpellList
@@ -93,9 +98,10 @@ namespace SpellLibrary
             this.SpellList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.SpellList.ForeColor = System.Drawing.Color.White;
             this.SpellList.FormattingEnabled = true;
+            this.SpellList.ItemHeight = 20;
             this.SpellList.Location = new System.Drawing.Point(12, 12);
             this.SpellList.Name = "SpellList";
-            this.SpellList.Size = new System.Drawing.Size(170, 472);
+            this.SpellList.Size = new System.Drawing.Size(170, 464);
             this.SpellList.TabIndex = 0;
             this.SpellList.SelectedIndexChanged += new System.EventHandler(this.SpellList_SelectedIndexChanged);
             // 
@@ -116,7 +122,7 @@ namespace SpellLibrary
             // 
             this.CopyButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.CopyButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.CopyButton.Location = new System.Drawing.Point(12, 490);
+            this.CopyButton.Location = new System.Drawing.Point(11, 482);
             this.CopyButton.Name = "CopyButton";
             this.CopyButton.Size = new System.Drawing.Size(170, 23);
             this.CopyButton.TabIndex = 2;
@@ -128,7 +134,7 @@ namespace SpellLibrary
             // 
             this.PasteButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.PasteButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.PasteButton.Location = new System.Drawing.Point(12, 519);
+            this.PasteButton.Location = new System.Drawing.Point(11, 511);
             this.PasteButton.Name = "PasteButton";
             this.PasteButton.Size = new System.Drawing.Size(170, 23);
             this.PasteButton.TabIndex = 2;
@@ -140,7 +146,7 @@ namespace SpellLibrary
             // 
             this.DeleteButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.DeleteButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.DeleteButton.Location = new System.Drawing.Point(12, 548);
+            this.DeleteButton.Location = new System.Drawing.Point(11, 540);
             this.DeleteButton.Name = "DeleteButton";
             this.DeleteButton.Size = new System.Drawing.Size(170, 23);
             this.DeleteButton.TabIndex = 2;
@@ -152,7 +158,7 @@ namespace SpellLibrary
             // 
             this.ImportButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ImportButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ImportButton.Location = new System.Drawing.Point(12, 577);
+            this.ImportButton.Location = new System.Drawing.Point(11, 569);
             this.ImportButton.Name = "ImportButton";
             this.ImportButton.Size = new System.Drawing.Size(170, 23);
             this.ImportButton.TabIndex = 2;
@@ -160,12 +166,35 @@ namespace SpellLibrary
             this.ImportButton.UseVisualStyleBackColor = false;
             this.ImportButton.Click += new System.EventHandler(this.ImportButton_Click);
             // 
+            // NoteTextBox
+            // 
+            this.NoteTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.NoteTextBox.ForeColor = System.Drawing.Color.White;
+            this.NoteTextBox.Location = new System.Drawing.Point(11, 627);
+            this.NoteTextBox.Multiline = true;
+            this.NoteTextBox.Name = "NoteTextBox";
+            this.NoteTextBox.ReadOnly = true;
+            this.NoteTextBox.Size = new System.Drawing.Size(789, 66);
+            this.NoteTextBox.TabIndex = 3;
+            // 
+            // EditNoteButton
+            // 
+            this.EditNoteButton.Location = new System.Drawing.Point(11, 598);
+            this.EditNoteButton.Name = "EditNoteButton";
+            this.EditNoteButton.Size = new System.Drawing.Size(170, 23);
+            this.EditNoteButton.TabIndex = 4;
+            this.EditNoteButton.Text = "Edit Note";
+            this.EditNoteButton.UseVisualStyleBackColor = true;
+            this.EditNoteButton.Click += new System.EventHandler(this.EditNoteButton_Click);
+            // 
             // MainWindow
             // 
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.ClientSize = new System.Drawing.Size(834, 649);
+            this.ClientSize = new System.Drawing.Size(834, 703);
+            this.Controls.Add(this.EditNoteButton);
+            this.Controls.Add(this.NoteTextBox);
             this.Controls.Add(this.ImportButton);
             this.Controls.Add(this.DeleteButton);
             this.Controls.Add(this.PasteButton);
@@ -175,6 +204,7 @@ namespace SpellLibrary
             this.Name = "MainWindow";
             this.Padding = new System.Windows.Forms.Padding(8);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
         #endregion
@@ -313,9 +343,40 @@ namespace SpellLibrary
                 {
                     Console.WriteLine(ex.ToString());
                 }
+                NoteTextBox.Text = spell.Note;
+                Editing = false;
+                NoteTextBox.ReadOnly = true;
+                EditNoteButton.Text = "Edit Note";
+
             }
         }
 
+        private void EditNoteButton_Click(object sender, EventArgs e)
+        {
+            Spell spell = (Spell)SpellList.SelectedItem;
+            if (spell == null)
+            {
+                Editing = false;
+                NoteTextBox.ReadOnly = true;
+                EditNoteButton.Text = "Edit Note";
+                NoteTextBox.Text = "";
+                return;
+            }
+            if (Editing)
+            {
+                spell.Note = NoteTextBox.Text;
+                spell.SaveIn(libraryPath);
+                Editing = false;
+                EditNoteButton.Text = "Edit Note";
+                NoteTextBox.ReadOnly = true;
+            } else
+            {
+                Editing = true;
+                EditNoteButton.Text = "Save Note";
+                NoteTextBox.ReadOnly = false;
+
+            }
+        }
     }
 }
 
