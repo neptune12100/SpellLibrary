@@ -60,7 +60,7 @@ namespace SpellLibrary
             {
                 spellNbt = (NbtCompound)TextNbtParser.Parse(spell.Source);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //Console.WriteLine(e);
             }

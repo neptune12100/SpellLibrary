@@ -328,20 +328,20 @@ namespace SpellLibrary
 
         private void SpellList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!HasJar)
-                return;
-
             Spell spell = (Spell)SpellList.SelectedItem;
             if (spell != null)
             {
-                try
+                if (HasJar)
                 {
-                    Image image = SpellImage.RenderSpell(spell);
-                    PreviewLabel.Image = image;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
+                    try
+                    {
+                        Image image = SpellImage.RenderSpell(spell);
+                        PreviewLabel.Image = image;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
                 }
                 NoteTextBox.Text = spell.Note;
                 Editing = false;

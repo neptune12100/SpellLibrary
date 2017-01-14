@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using ICSharpCode.SharpZipLib.Zip;
 using System.IO;
+using System;
+using System.Text;
 
 namespace SpellLibrary
 {
@@ -57,7 +59,7 @@ namespace SpellLibrary
                 return false;
             }
 			zf = new ZipFile (jarPath);
-            Bitmap programmer = (Bitmap)Bitmap.FromStream(GetStream("assets/psi/textures/gui/programmer.png"));
+            Bitmap programmer = (Bitmap)Image.FromStream(GetStream("assets/psi/textures/gui/programmer.png"));
             ParameterImages = new Image[5]; //NONE UP DOWN LEFT RIGHT
             ParameterImages[0] = null;
             ParameterImages[2] = programmer.Clone(new Rectangle(230, 8, 8, 8), PixelFormat.DontCare); //for some reason "PixelFormat.DontCare" cracks me up
@@ -65,7 +67,13 @@ namespace SpellLibrary
             ParameterImages[4] = programmer.Clone(new Rectangle(222, 0, 8, 8), PixelFormat.DontCare);
             ParameterImages[3] = programmer.Clone(new Rectangle(230, 0, 8, 8), PixelFormat.DontCare);
 
-            Bitmap connectors = (Bitmap)Bitmap.FromStream(GetStream("assets/psi/textures/spell/connectorLines.png"));
+
+            ZipEntry e = zf.GetEntry("assets/psi/textures/spell/connector_lines.png");
+            if (e == null)
+            {
+                e = zf.GetEntry("assets/psi/textures/spell/connectorLines.png");
+            }
+            Bitmap connectors = (Bitmap)Image.FromStream(zf.GetInputStream(e));
             ConnectorImages = new Image[5];
             ConnectorImages[0] = null;
             ConnectorImages[2] = connectors.Clone(new Rectangle(16, 16, 16, 16), PixelFormat.DontCare);
@@ -88,7 +96,7 @@ namespace SpellLibrary
                 return Images[key];
             }
             else {
-                Image i = Bitmap.FromStream(GetStream(basePath + key + ".png"));
+                Image i = Image.FromStream(GetStream(basePath + key + ".png"));
                 Images[key] = i;
                 //Console.WriteLine ("Loaded " + name + ".");
                 return i;
@@ -97,8 +105,33 @@ namespace SpellLibrary
 
 		private static Stream GetStream(string path) {
 			ZipEntry e = zf.GetEntry (path);
+            if (e == null)
+            {
+                e = zf.GetEntry(CamelCaseToUnderscored(path));//Newer version of Psi uses underscored_text instead of camelCase for filenames
+            }
+            if (e /*still*/ == null)
+            {
+                Console.WriteLine(CamelCaseToUnderscored(path));
+            }
 			return zf.GetInputStream (e);
 		}
+
+        private static string CamelCaseToUnderscored(string cc)
+        {
+            StringBuilder sb = new StringBuilder(cc.Length);
+            for (int i = 0; i < cc.Length; i++)
+            {
+                if (char.IsUpper(cc, i))
+                {
+                    sb.Append('_');
+                    sb.Append(char.ToLower(cc[i]));
+                } else
+                {
+                    sb.Append(cc[i]);
+                }
+            }
+            return sb.ToString();
+        }
     }
 }
 
