@@ -1,6 +1,0 @@
-﻿<!-- SpellLibrary File v1 -->
-<!-- Well, feel free to edit, I dont care, just don't screw up that top comment -->
-<spell>
-	<notes>Blah Blah Blah</notes>
-	<source>{stuff: ["blah", "blah", "blah"]}</source>
-</spell>

@@ -11,20 +11,7 @@ namespace SpellLibrary
     /// </summary>
     public class Spell
 	{
-        /// <summary>
-        /// Plain: Plain exported spell
-        /// V1: XML spell file version 1, with metadata.
-        /// </summary>
-        public enum SpellFileType
-        {
-            Plain,
-            V1
-        }
-
         private const string Extension = ".txt";
-
-        private const string V1Magic = <!-- SpellLibrary File v1 -->";
-
         /// <summary>
         /// The exported spell
         /// </summary>
@@ -39,7 +26,7 @@ namespace SpellLibrary
 		/// <summary>
         /// Construct a Spell form the exported source
         /// </summary>
-        /// <param name="json">The contents of the file. Either plain exported goodness or with notes</param>
+        /// <param name="json">Source, exported from Psi</param>
         public Spell (string json)
 		{
 			Source = json;
@@ -57,16 +44,6 @@ namespace SpellLibrary
         /// </summary>
         /// <param name="nbt"></param>
         public Spell(NbtTag nbt) : this(TextNbtEmitter.Serialize(nbt)) { }
-
-        /// <summary>
-        /// Identify the spell file type
-        /// /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public SpellFileType IdentifySpellVersion(string source)
-        {
-            return source.StartsWith(V1Magic) ? SpellFileType.V1 : SpellFileType.Plain;
-        }
 
 		/// <summary>
         /// Load a spell from a file
